@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PrepProject.Data;
+using PrepProject.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+
+//middlewares execute in the order of their implementation. CustomMiddleWare2 gets implemented first then CustomMiddleware1
+app.UseMiddleware<CustomMiddlewareClass2>();
+app.UseMiddleware<CustomMiddlewareClass>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
