@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using PrepProject.Data;
 using PrepProject.Models.DTOs;
 using PrepProject.Models.Entities;
+using PrepProject.Extensions;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace PrepProject.Controllers
 {
@@ -33,6 +35,10 @@ namespace PrepProject.Controllers
 
         [HttpPost]
         public IActionResult AddEmployee(AddEmployeeDTO addEmployeeDTO) {
+
+            if (addEmployeeDTO.Name.IsNullOrWhiteSpace2()) {
+                throw new NullReferenceException();
+            }
 
             var employeeObj = new Employee()
             {
